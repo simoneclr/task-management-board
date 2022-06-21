@@ -1,6 +1,8 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-const tasksAdapter = createEntityAdapter<string>()
+import { Task } from "../../model/tasksTypes";
+
+const tasksAdapter = createEntityAdapter<Task>({})
 
 const tasksSlice = createSlice({
 	name: "tasks",
