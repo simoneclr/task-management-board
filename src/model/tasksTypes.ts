@@ -15,7 +15,13 @@ interface Task {
 	name: string;
 	description: string;
 	status: TaskStatus;
+	parentBoardId: string;
 	subtasks?: SubTask[];
+}
+
+interface TaskBoard {
+	id: string;
+	name: string;
 }
 
 export {
@@ -24,5 +30,6 @@ export {
 
 export type {
 	SubTask,
-	Task
+	Task,
+	TaskBoard
 }

@@ -1,13 +1,17 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import { getMockTasks } from '../util/mockData';
 
+import boardsSlice from './boards/boardsSlice';
 import tasksSlice from './tasks/tasksSlice';
+
+import { getMockBoards, getMockTasks } from '../util/mockData';
 
 export const store = configureStore({
   reducer: {
-    tasks: tasksSlice,
+    boards: boardsSlice,
+    tasks: tasksSlice
   },
   preloadedState: {
+    boards: getMockBoards(),
     tasks: getMockTasks()
   }
 });
