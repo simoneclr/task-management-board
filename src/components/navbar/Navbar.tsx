@@ -14,7 +14,7 @@ function Navbar({boardId}: NavbarProps) {
 	const selectedBoard = useSelector((state: RootState) => selectBoardById(state, boardId))
 
 	return (
-		<nav className="flex items-center px-8 py-4 gap-8 bg-slate-400">
+		<nav className="flex items-center h-20 px-8 gap-8 bg-slate-400">
 			<h1 className="text-3xl">
 				{selectedBoard?.name}
 			</h1>			
