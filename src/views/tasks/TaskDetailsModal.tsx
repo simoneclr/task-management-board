@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
 import { selectTaskById } from "../../store/tasks/tasksSlice";
+import SubTasksList from "./SubTasksList";
 
 interface TaskDetailsModalProps {
 	taskId: EntityId;
@@ -30,7 +31,7 @@ function TaskDetailsModal({taskId, isOpen, closeModal}: TaskDetailsModalProps) {
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis doloribus illo totam pariatur, reprehenderit aliquam eius ipsam voluptatem inventore, dolores voluptate incidunt error sint! Esse impedit incidunt officiis perferendis iure.
 				</p>
 
-				{/* Subtasks */}
+				<SubTasksList taskId={taskId}/>
 
 				{/* Actions */}
 			</div>			

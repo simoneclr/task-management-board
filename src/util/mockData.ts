@@ -19,6 +19,7 @@ const mockTasks: Task[] = [
 		name: "Build settings UI",
 		description: "lorem ipsum yada yada yada",
 		status: TaskStatus.PLANNED,
+		subtasks: [],
 		parentBoardId: mockBoards[0].id
 	},
 	{
@@ -26,6 +27,7 @@ const mockTasks: Task[] = [
 		name: "Build user profile UI",
 		description: "lorem ipsum yada yada yada",
 		status: TaskStatus.PLANNED,
+		subtasks: [],
 		parentBoardId: mockBoards[0].id
 	},
 	{
@@ -33,6 +35,23 @@ const mockTasks: Task[] = [
 		name: "Build Log-in flow",
 		description: "lorem ipsum yada yada yada",
 		status: TaskStatus.DOING,
+		subtasks: [
+			{
+				id: nanoid(),
+				name: "Build Log-in UI",
+				isDone: true
+			},
+			{
+				id: nanoid(),
+				name: "Implement Form validation",
+				isDone: false
+			},
+			{
+				id: nanoid(),
+				name: "Implement Email Verification",
+				isDone: false
+			}
+		],
 		parentBoardId: mockBoards[0].id
 	},
 	{
@@ -40,6 +59,18 @@ const mockTasks: Task[] = [
 		name: "Market research",
 		description: "lorem ipsum yada yada yada",
 		status: TaskStatus.DONE,
+		subtasks: [
+			{
+				id: nanoid(),
+				name: "Research competitors",
+				isDone: true
+			},
+			{
+				id: nanoid(),
+				name: "Reasearch potential customers",
+				isDone: true
+			}
+		],
 		parentBoardId: mockBoards[0].id
 	}
 ]

@@ -5,7 +5,7 @@ enum TaskStatus {
 }
 
 interface SubTask {
-	id: number;
+	id: string;
 	name: string;
 	isDone: boolean;
 }
@@ -16,7 +16,7 @@ interface Task {
 	description: string;
 	status: TaskStatus;
 	parentBoardId: string;
-	subtasks?: SubTask[];
+	subtasks: SubTask[];
 }
 
 interface TaskBoard {
