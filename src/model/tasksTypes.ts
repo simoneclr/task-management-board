@@ -8,6 +8,7 @@ interface SubTask {
 	id: string;
 	name: string;
 	isDone: boolean;
+	parentTaskId: string;
 }
 
 interface Task {
@@ -16,7 +17,6 @@ interface Task {
 	description: string;
 	status: TaskStatus;
 	parentBoardId: string;
-	subtasks: SubTask[];
 }
 
 interface TaskBoard {

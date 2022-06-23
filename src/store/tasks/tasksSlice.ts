@@ -59,9 +59,3 @@ export const selectDoneTasksIdsByBoardIds = createSelector(
 		task => task.parentBoardId === boardId && task.status === TaskStatus.DONE
 	).map(task => task.id)
 )
-
-// Select the ids of subtasks belonging to a specified task
-export const selectSubTasksByTaskId = createSelector(
-	[(state: RootState, taskId: EntityId) => selectTaskById(state, taskId)],
-	task => task?.subtasks
-)

@@ -1,6 +1,6 @@
 import { nanoid } from "@reduxjs/toolkit";
 
-import { Task, TaskBoard, TaskStatus } from "../model/tasksTypes";
+import { SubTask, Task, TaskBoard, TaskStatus } from "../model/tasksTypes";
 
 const mockBoards: TaskBoard[] = [
 	{
@@ -19,7 +19,6 @@ const mockTasks: Task[] = [
 		name: "Build settings UI",
 		description: "lorem ipsum yada yada yada",
 		status: TaskStatus.PLANNED,
-		subtasks: [],
 		parentBoardId: mockBoards[0].id
 	},
 	{
@@ -27,7 +26,6 @@ const mockTasks: Task[] = [
 		name: "Build user profile UI",
 		description: "lorem ipsum yada yada yada",
 		status: TaskStatus.PLANNED,
-		subtasks: [],
 		parentBoardId: mockBoards[0].id
 	},
 	{
@@ -35,23 +33,6 @@ const mockTasks: Task[] = [
 		name: "Build Log-in flow",
 		description: "lorem ipsum yada yada yada",
 		status: TaskStatus.DOING,
-		subtasks: [
-			{
-				id: nanoid(),
-				name: "Build Log-in UI",
-				isDone: true
-			},
-			{
-				id: nanoid(),
-				name: "Implement Form validation",
-				isDone: false
-			},
-			{
-				id: nanoid(),
-				name: "Implement Email Verification",
-				isDone: false
-			}
-		],
 		parentBoardId: mockBoards[0].id
 	},
 	{
@@ -59,19 +40,40 @@ const mockTasks: Task[] = [
 		name: "Market research",
 		description: "lorem ipsum yada yada yada",
 		status: TaskStatus.DONE,
-		subtasks: [
-			{
-				id: nanoid(),
-				name: "Research competitors",
-				isDone: true
-			},
-			{
-				id: nanoid(),
-				name: "Reasearch potential customers",
-				isDone: true
-			}
-		],
 		parentBoardId: mockBoards[0].id
+	}
+]
+
+const mockSubTasks: SubTask[] = [
+	{
+		id: nanoid(),
+		name: "Build Log-in UI",
+		isDone: true,
+		parentTaskId: mockTasks[2].id
+	},
+	{
+		id: nanoid(),
+		name: "Implement Form validation",
+		isDone: false,
+		parentTaskId: mockTasks[2].id
+	},
+	{
+		id: nanoid(),
+		name: "Implement Email Verification",
+		isDone: false,
+		parentTaskId: mockTasks[2].id
+	},
+	{
+		id: nanoid(),
+		name: "Research competitors",
+		isDone: true,
+		parentTaskId: mockTasks[3].id
+	},
+	{
+		id: nanoid(),
+		name: "Reasearch potential customers",
+		isDone: true,
+		parentTaskId: mockTasks[3].id
 	}
 ]
 
@@ -107,4 +109,20 @@ const getMockBoards = () => {
 	return res
 }
 
-export { getMockTasks, getMockBoards }
+const getMockSubTasks = () => {
+	let res: {
+		ids: string[],
+		entities: {[id: string]: SubTask}
+	} = {
+		ids: mockSubTasks.map(subTask => subTask.id),
+		entities: {}
+	}
+
+	mockSubTasks.forEach(subTask => {
+		res.entities[subTask.id] = subTask
+	})
+
+	return res
+}
+
+export { getMockTasks, getMockBoards, getMockSubTasks }

@@ -1,7 +1,7 @@
 import { EntityId } from "@reduxjs/toolkit"
 import { useAppSelector } from "../../store/hooks"
 
-import { selectSubTasksByTaskId } from "../../store/tasks/tasksSlice"
+import { selectCompletedSubTasksByTaskId, selectSubTasksIdsByTaskId } from "../../store/subTasks/subTasksSlice"
 
 import SubTaskCard from "./SubTaskCard"
 
@@ -12,20 +12,20 @@ interface SubTasksListProps {
 // Displays a list ob subtasks for a given task
 function SubTasksList({taskId}: SubTasksListProps) {
 
-	const subTasks = useAppSelector(state => selectSubTasksByTaskId(state, taskId))
+	const subTasksIds = useAppSelector(state => selectSubTasksIdsByTaskId(state, taskId))
 
-	const completed = subTasks?.reduce((sum, subTask) => sum += subTask.isDone ? 1 : 0, 0)
+	const completed = useAppSelector(state => selectCompletedSubTasksByTaskId(state, taskId))
 
 	return (
-		subTasks && subTasks?.length > 0 ?
+		subTasksIds && subTasksIds?.length > 0 ?
 		
 		<>
 			<h3 className="text-lg">
-				Subtasks ({completed} / {subTasks.length})
+				Subtasks ({completed} / {subTasksIds.length})
 			</h3>
 
 			<ul className="flex flex-col gap-2">
-				{subTasks.map(subTask => <SubTaskCard key={subTask.id} subTask={subTask}/>)}
+				{subTasksIds.map(id => <SubTaskCard key={id} subTaskId={id}/>)}
 			</ul>
 		</>
 
