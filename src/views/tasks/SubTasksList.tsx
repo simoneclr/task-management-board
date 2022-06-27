@@ -25,7 +25,7 @@ function SubTasksList({taskId}: SubTasksListProps) {
 			</h3>
 
 			<ul className="flex flex-col gap-2">
-				{subTasksIds.map(id => <SubTaskCard key={id} subTaskId={id}/>)}
+				{subTasksIds.map(id => <SubTaskCard key={id} subTaskId={id} parentTaskId={taskId}/>)}
 			</ul>
 		</>
 

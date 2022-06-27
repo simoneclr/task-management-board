@@ -27,6 +27,13 @@ export const selectTasksIdsByBoardIds = createSelector(
 	(tasks, boardId) => tasks.filter(task => task.parentBoardId === boardId).map(task => task.id)
 )
 
+export const selectTaskStatusByTaskId = createSelector(
+	[
+		(state: RootState, taskId: EntityId) => selectTaskById(state, taskId)
+	],
+	task => task ? task.status : undefined
+)
+
 // Select planned tasks belonging to a specified board
 export const selectPlannedTasksIdsByBoardIds = createSelector(
 	[

@@ -47,6 +47,12 @@ const mockTasks: Task[] = [
 const mockSubTasks: SubTask[] = [
 	{
 		id: nanoid(),
+		name: "Build Theme Switcher",
+		isDone: false,
+		parentTaskId: mockTasks[0].id
+	},
+	{
+		id: nanoid(),
 		name: "Build Log-in UI",
 		isDone: true,
 		parentTaskId: mockTasks[2].id
