@@ -1,4 +1,4 @@
-import { createEntityAdapter, createSelector, createSlice, EntityId } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSelector, createSlice, EntityId, PayloadAction } from "@reduxjs/toolkit";
 
 import { Task, TaskStatus } from "../../model/tasksTypes";
 import { RootState } from "../store";
@@ -8,10 +8,58 @@ const tasksAdapter = createEntityAdapter<Task>({})
 const tasksSlice = createSlice({
 	name: "tasks",
 	initialState: tasksAdapter.getInitialState(),
-	reducers: {}
+	reducers: {
+		taskCompleted: {
+			reducer: (
+				state,
+				action: PayloadAction<{taskId: EntityId}>
+			) => {
+				const {taskId} = action.payload
+
+				const task = state.entities[taskId]
+
+				if (task) {
+					task.status = TaskStatus.DONE
+				}
+			},
+			prepare: (taskId: EntityId) => {
+				return {
+					payload: {
+						taskId
+					}
+				}
+			}
+		},
+		taskStarted: {
+			reducer: (
+				state,
+				action: PayloadAction<{taskId: EntityId}>
+			) => {
+				const {taskId} = action.payload
+
+				const task = state.entities[taskId]
+
+				if (task) {
+					task.status = TaskStatus.DOING
+				}
+			},
+			prepare: (taskId: EntityId) => {
+				return {
+					payload: {
+						taskId
+					}
+				}
+			}
+		}
+	}
 })
 
 export default tasksSlice.reducer
+
+export const {
+	taskCompleted,
+	taskStarted
+} = tasksSlice.actions
 
 export const {
 	selectAll: selectAllTasks,
