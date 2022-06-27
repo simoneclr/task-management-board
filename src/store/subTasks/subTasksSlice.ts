@@ -63,3 +63,14 @@ export const selectCompletedSubTasksByTaskId = createSelector(
 		subTask => subTask.parentTaskId === taskId
 	).reduce((sum, subTask) => sum += subTask.isDone ? 1 : 0, 0)
 )
+
+// Given a task id, check if all of its subtasks have been completed
+export const selectCanCompleteTaskId = createSelector(
+	[
+		selectAllSubTasks,
+		(state: RootState, taskId: EntityId) => taskId
+	],
+	(subTasks, taskId) => subTasks.filter(
+		subTask => subTask.parentTaskId === taskId
+	).reduce((allDone, subTask) => allDone && subTask.isDone, true)
+)

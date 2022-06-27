@@ -5,6 +5,7 @@ import { RootState } from "../../store/store";
 
 import { selectTaskById } from "../../store/tasks/tasksSlice";
 import SubTasksList from "./SubTasksList";
+import TaskActions from "./TaskActions";
 
 interface TaskDetailsModalProps {
 	taskId: EntityId;
@@ -40,7 +41,7 @@ function TaskDetailsModal({taskId, isOpen, closeModal}: TaskDetailsModalProps) {
 
 				<SubTasksList taskId={taskId}/>
 
-				{/* Actions */}
+				<TaskActions taskId={taskId}/>
 			</div>			
 		</div>
 
