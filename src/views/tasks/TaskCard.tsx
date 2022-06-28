@@ -2,9 +2,11 @@ import { EntityId } from "@reduxjs/toolkit"
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+
 import { selectTaskById } from "../../store/tasks/tasksSlice";
 
-import TaskDetailsModal from "./TaskDetailsModal";
+import Modal from "../../components/Modal";
+import TaskModalDetails from "./TaskModalDetails";
 
 interface TaskCardProps {
 	taskId: EntityId;
@@ -31,7 +33,9 @@ function TaskCard({taskId}: TaskCardProps) {
 				{task.name}
 			</div>
 
-			<TaskDetailsModal isOpen={modalOpen} closeModal={closeModal} taskId={taskId}/>
+			<Modal isOpen={modalOpen} close={closeModal}>
+				<TaskModalDetails taskId={taskId}/>
+			</Modal>			
 		</li>		
 
 		:
