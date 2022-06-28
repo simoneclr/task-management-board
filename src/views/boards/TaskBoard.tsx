@@ -11,6 +11,7 @@ import {
 } from "../../store/tasks/tasksSlice";
 
 import TasksColumn from "../tasks/TasksColumn";
+import AddTaskButton from "../tasks/AddTaskButton";
 
 interface TaskBoardProps {
 	boardId: EntityId;
@@ -24,7 +25,7 @@ function TaskBoard({boardId}: TaskBoardProps) {
 	const doneTasksIds = useSelector((state: RootState) => selectDoneTasksIdsByBoardIds(state, boardId))
 
 	return (
-		<div className="grid grid-cols-3 gap-8 p-8">
+		<div className="relative grid grid-cols-3 gap-8 p-8">
 			{/* Planned column */}
 			<TasksColumn name={TaskStatus.PLANNED} tasksIds={plannedTasksIds}/>
 			
@@ -33,6 +34,8 @@ function TaskBoard({boardId}: TaskBoardProps) {
 
 			{/* Done column */}
 			<TasksColumn name={TaskStatus.DONE} tasksIds={doneTasksIds}/>
+
+			<AddTaskButton clickHandler={(e) => {}}/>
 		</div>
 	)
 }
