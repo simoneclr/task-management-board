@@ -1,4 +1,4 @@
-import { createEntityAdapter, createSelector, createSlice, EntityId, PayloadAction } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSelector, createSlice, EntityId, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 import { Task, TaskStatus } from "../../model/tasksTypes";
 import { RootState } from "../store";
@@ -9,6 +9,33 @@ const tasksSlice = createSlice({
 	name: "tasks",
 	initialState: tasksAdapter.getInitialState(),
 	reducers: {
+		taskAdded: {
+			reducer: (
+				state,
+				action: PayloadAction<{parentBoardId: EntityId, taskName: string, taskDescription: string}>
+			) => {
+				const {parentBoardId, taskName, taskDescription} = action.payload
+
+				const newTask: Task = {
+					id: nanoid(),
+					name: taskName,
+					description: taskDescription,
+					status: TaskStatus.PLANNED,
+					parentBoardId: parentBoardId.toString()
+				}
+
+				tasksAdapter.addOne(state, newTask)
+			},
+			prepare: (parentBoardId: EntityId, taskName: string, taskDescription: string) => {
+				return {
+					payload: {
+						parentBoardId,
+						taskName,
+						taskDescription
+					}
+				}
+			}
+		},
 		taskCompleted: {
 			reducer: (
 				state,
@@ -57,6 +84,7 @@ const tasksSlice = createSlice({
 export default tasksSlice.reducer
 
 export const {
+	taskAdded,
 	taskCompleted,
 	taskStarted
 } = tasksSlice.actions

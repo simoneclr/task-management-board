@@ -18,7 +18,7 @@ function Modal({isOpen, close, children}: ModalProps) {
 		isOpen ?
 
 		<div onClick={handleModalClick}
-			className="fixed inset-0 flex items-center justify-center bg-black/75">
+			className="fixed z-50 inset-0 flex items-center justify-center bg-black/75">
 			<div className="flex flex-col gap-4 w-1/3 p-8 bg-slate-50 rounded">
 				{children}
 			</div>			

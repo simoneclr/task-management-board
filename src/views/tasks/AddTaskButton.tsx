@@ -9,7 +9,7 @@ interface AddTaskButtonProps {
 function AddTaskButton({clickHandler}: AddTaskButtonProps) {
 	return (
 		<button onClick={clickHandler}
-			className="group fixed bottom-8 right-8 flex items-center justify-center h-12 overflow-hidden
+			className="group fixed z-20 bottom-8 right-8 flex items-center justify-center h-12 overflow-hidden
 				bg-blue-600 active:bg-blue-700 text-white font-bold rounded-full">
 			<span className="block w-12">
 				<IconPlus className="fill-current h-7 mx-auto"/>

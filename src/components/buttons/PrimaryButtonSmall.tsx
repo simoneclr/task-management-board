@@ -12,9 +12,7 @@ function PrimaryButtonSmall({disabled, tooltipContent, children, clickHandler}: 
 	return (
 		<>
 		<button onClick={e => clickHandler(e)} disabled={disabled ? disabled : false}
-			className="peer px-6 py-2 rounded-full bg-blue-600 text-white font-bold 
-				hover:bg-blue-500 active:bg-blue-700
-				disabled:bg-gray-300 disabled:cursor-not-allowed">
+			className="peer btn-primary px-6 py-2 rounded-full">
 			{children}
 		</button>
 

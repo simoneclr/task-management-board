@@ -12,6 +12,9 @@ import {
 
 import TasksColumn from "../tasks/TasksColumn";
 import AddTaskButton from "../tasks/AddTaskButton";
+import Modal from "../../components/Modal";
+import { useState } from "react";
+import AddTaskForm from "../tasks/AddTaskForm";
 
 interface TaskBoardProps {
 	boardId: EntityId;
@@ -24,6 +27,16 @@ function TaskBoard({boardId}: TaskBoardProps) {
 	const doingTasksIds = useSelector((state: RootState) => selectDoingTasksIdsByBoardIds(state, boardId))
 	const doneTasksIds = useSelector((state: RootState) => selectDoneTasksIdsByBoardIds(state, boardId))
 
+	const [modalOpen, setModalOpen] = useState<boolean>(false)
+
+	const openModal = () => {
+		setModalOpen(true)
+	}
+
+	const closeModal = () => {
+		setModalOpen(false)
+	}
+
 	return (
 		<div className="relative grid grid-cols-3 gap-8 p-8">
 			{/* Planned column */}
@@ -35,7 +48,11 @@ function TaskBoard({boardId}: TaskBoardProps) {
 			{/* Done column */}
 			<TasksColumn name={TaskStatus.DONE} tasksIds={doneTasksIds}/>
 
-			<AddTaskButton clickHandler={(e) => {}}/>
+			<AddTaskButton clickHandler={openModal}/>
+
+			<Modal isOpen={modalOpen} close={closeModal}>
+				<AddTaskForm parentBoardId={boardId} closeModal={closeModal}/>
+			</Modal>
 		</div>
 	)
 }
