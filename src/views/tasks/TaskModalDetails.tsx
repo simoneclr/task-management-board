@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
 import { selectTaskById } from "../../store/tasks/tasksSlice";
-import SubTasksList from "./SubTasksList";
+import SubTasksList from "../subTasks/SubTasksList";
 import TaskActions from "./TaskActions";
 
 interface TaskDetailsModalProps {
