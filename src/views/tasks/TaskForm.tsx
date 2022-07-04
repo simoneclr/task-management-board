@@ -14,7 +14,7 @@ interface TaskFormProps {
 }
 
 // Displays a form to create/edit a task
-function TaskForm({taskName, taskDescription, subTasksList, saveTask: submitHandler}: TaskFormProps) {
+function TaskForm({taskName, taskDescription, subTasksList, saveTask}: TaskFormProps) {
 
 	const [name, setName] = useState<string>(taskName ? taskName : "")
 	const [description, setDescription] = useState<string>(taskDescription ? taskDescription : "")
@@ -23,7 +23,7 @@ function TaskForm({taskName, taskDescription, subTasksList, saveTask: submitHand
 	const onSubmit = (e: SyntheticEvent) => {
 		e.preventDefault()
 
-		submitHandler(name, description, subTasks)
+		saveTask(name, description, subTasks)
 	}
 
 	return (
