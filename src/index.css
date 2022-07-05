@@ -14,4 +14,11 @@
 		
 		@apply disabled:cursor-not-allowed;
 	}
+
+	.input-outline {
+		@apply outline;
+		@apply outline-2;
+		@apply outline-neutral-600;
+		@apply focus:outline-blue-600;		
+	}
 }

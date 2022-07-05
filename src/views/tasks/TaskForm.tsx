@@ -58,16 +58,14 @@ function TaskForm({taskName, taskDescription, existingSubTasks, saveTask}: TaskF
 				<span>Name:</span>
 
 				<input type="text" name="name" value={name} onChange={e => setName(e.target.value)} 
-							className="outline outline-2 outline-neutral-600 focus:outline-blue-600
-							p-2 rounded-sm"/>
+							className="input-outline p-2 rounded-sm"/>
 			</label>
 			
 			<label className="flex flex-col items-stretch gap-2">
 				<span>Description:</span>
 
 				<textarea name="description" value={description} onChange={e => setDescription(e.target.value)}
-									rows={5} className="resize-none outline outline-2 outline-neutral-600 focus:outline-blue-600
-									p-2 rounded-sm">
+									rows={5} className="resize-none input-outline p-2 rounded-sm">
 				</textarea>
 			</label>
 
