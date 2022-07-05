@@ -1,7 +1,26 @@
-import { createEntityAdapter, createSelector, createSlice, EntityId, nanoid, PayloadAction } from "@reduxjs/toolkit";
+import { AnyAction, createEntityAdapter, createSelector, createSlice, EntityId, nanoid, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
 
-import { Task, TaskStatus } from "../../model/tasksTypes";
 import { RootState } from "../store";
+
+import { SubTask, Task, TaskStatus } from "../../model/tasksTypes";
+import { subTaskAdded } from "../subTasks/subTasksSlice";
+
+// Thunk function that adds a new Task and its relative SubTasks
+export const addTask = (
+	parentBoardId: EntityId, 
+	taskName: string, 
+	taskDescription: string,
+	subTasks: SubTask[]
+): ThunkAction<void, RootState, unknown, AnyAction> => 
+(dispatch, getState) => {
+	const taskId = nanoid()
+
+	dispatch(taskAdded(parentBoardId, taskId, taskName, taskDescription))
+
+	subTasks.forEach(subTask => {
+		dispatch(subTaskAdded(taskId, subTask.name))
+	})
+}
 
 const tasksAdapter = createEntityAdapter<Task>({})
 
@@ -12,12 +31,17 @@ const tasksSlice = createSlice({
 		taskAdded: {
 			reducer: (
 				state,
-				action: PayloadAction<{parentBoardId: EntityId, taskName: string, taskDescription: string}>
+				action: PayloadAction<{
+					parentBoardId: EntityId,
+					taskId: EntityId,
+					taskName: string,
+					taskDescription: string
+				}>
 			) => {
-				const {parentBoardId, taskName, taskDescription} = action.payload
+				const {parentBoardId, taskId, taskName, taskDescription} = action.payload
 
 				const newTask: Task = {
-					id: nanoid(),
+					id: taskId.toString(),
 					name: taskName,
 					description: taskDescription,
 					status: TaskStatus.PLANNED,
@@ -26,10 +50,11 @@ const tasksSlice = createSlice({
 
 				tasksAdapter.addOne(state, newTask)
 			},
-			prepare: (parentBoardId: EntityId, taskName: string, taskDescription: string) => {
+			prepare: (parentBoardId: EntityId, taskId, taskName: string, taskDescription: string) => {
 				return {
 					payload: {
 						parentBoardId,
+						taskId,
 						taskName,
 						taskDescription
 					}
@@ -83,8 +108,13 @@ const tasksSlice = createSlice({
 
 export default tasksSlice.reducer
 
+// Actions not exported because accessed by thunks
+const {
+	taskAdded
+} = tasksSlice.actions
+
+// Exported actions
 export const {
-	taskAdded,
 	taskCompleted,
 	taskStarted
 } = tasksSlice.actions

@@ -1,11 +1,13 @@
 import { SyntheticEvent, useState } from "react";
 
-import { SubTask } from "../../model/tasksTypes"
+import { SubTask } from "../../model/tasksTypes";
+
+import SubTasksFormWidget from "../subTasks/SubTasksFormWidget";
 
 interface TaskFormProps {
 	taskName?: string;
 	taskDescription?: string;
-	subTasksList?: SubTask[];
+	existingSubTasks?: SubTask[];
 	saveTask: (
 		name: string,
 		description: string,
@@ -14,15 +16,38 @@ interface TaskFormProps {
 }
 
 // Displays a form to create/edit a task
-function TaskForm({taskName, taskDescription, subTasksList, saveTask}: TaskFormProps) {
+function TaskForm({taskName, taskDescription, existingSubTasks, saveTask}: TaskFormProps) {
 
 	const [name, setName] = useState<string>(taskName ? taskName : "")
+
 	const [description, setDescription] = useState<string>(taskDescription ? taskDescription : "")
-	const [subTasks, setSubTasks] = useState<SubTask[]>(subTasksList ? subTasksList : [])
+
+	const [subTasks, setSubTasks] = useState<SubTask[]>(existingSubTasks ? existingSubTasks.slice() : [])
+
+	// Adds a new subtask to the list, with empty name and temporary, made-up values in the other fields
+	const addNewSubTask = () => {
+		setSubTasks(prevState => [...prevState, {
+			id: "-1",
+			parentTaskId: "-1",
+			isDone: false,
+			name: ""
+		}])
+	}
+
+	// Given an index, returns a function that updates the subtask at that index (if present) in the local state
+	const updateSubTaskAtIndex = (index: number) => (name: string) => {
+		setSubTasks(prevState => {
+			let updated = prevState.slice()
+
+			updated[index].name = name
+
+			return updated
+		})
+	}
 
 	const onSubmit = (e: SyntheticEvent) => {
 		e.preventDefault()
-
+		
 		saveTask(name, description, subTasks)
 	}
 
@@ -45,6 +70,9 @@ function TaskForm({taskName, taskDescription, subTasksList, saveTask}: TaskFormP
 									p-2 rounded-sm">
 				</textarea>
 			</label>
+
+			<SubTasksFormWidget subTasks={subTasks} addSubTask={addNewSubTask} 
+				updateSubTaskAtIndex={updateSubTaskAtIndex}/>
 
 			<button type="submit" disabled={name === "" || description === ""}
 							className="btn-primary rounded-full p-2">

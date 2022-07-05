@@ -1,9 +1,9 @@
 import { EntityId } from "@reduxjs/toolkit"
 import { useAppDispatch } from "../../store/hooks";
 
-import { taskAdded } from "../../store/tasks/tasksSlice";
-
 import { SubTask } from "../../model/tasksTypes";
+
+import { addTask as addTaskThunk } from "../../store/tasks/tasksSlice";
 
 import TaskForm from "./TaskForm"
 
@@ -18,7 +18,7 @@ function AddTaskForm({parentBoardId, closeModal}: AddTaskFormProps) {
 	const dispatch = useAppDispatch()
 
 	const addTask = (name: string, description: string, subTasks:SubTask[]) => {
-		dispatch(taskAdded(parentBoardId, name, description))
+		dispatch(addTaskThunk(parentBoardId, name, description, subTasks))
 
 		closeModal()
 	}

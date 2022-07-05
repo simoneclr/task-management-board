@@ -1,4 +1,4 @@
-import { createEntityAdapter, createSelector, createSlice, EntityId, PayloadAction } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSelector, createSlice, EntityId, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 import { SubTask } from "../../model/tasksTypes";
 import { RootState } from "../store";
@@ -9,6 +9,36 @@ const subTasksSlice = createSlice({
 	name: "subTasks",
 	initialState: subTasksAdapter.getInitialState(),
 	reducers: {
+		subTaskAdded: {
+			reducer: (
+				state, 
+				action: PayloadAction<{
+					parentTaskId: EntityId,
+					name: string
+				}>
+			) => {
+				const {parentTaskId, name} = action.payload
+
+				const newSubTask: SubTask = {
+					id: nanoid(),
+					parentTaskId: parentTaskId.toString(),
+					name,
+					isDone: false
+				}
+
+				if (newSubTask.name !== "") {
+					subTasksAdapter.addOne(state, newSubTask)
+				}
+			},
+			prepare: (parentTaskId: EntityId, name: string) => {
+				return {
+					payload: {
+						parentTaskId,
+						name
+					}
+				}
+			} 
+		},
 		subTaskCompleted: {
 			reducer: (
 				state, 
@@ -35,7 +65,10 @@ const subTasksSlice = createSlice({
 
 export default subTasksSlice.reducer
 
-export const { subTaskCompleted } = subTasksSlice.actions
+export const {
+	subTaskAdded,
+	subTaskCompleted
+} = subTasksSlice.actions
 
 export const {
 	selectById: selectSubTaskById,
