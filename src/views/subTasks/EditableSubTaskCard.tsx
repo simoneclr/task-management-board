@@ -23,28 +23,44 @@ function EditableSubTaskCard({subTask, updateSubTask}: EditableSubTaskCardProps)
 	}
 
 	return (
-		<li className="flex justify-between p-2 bg-slate-200">
+		<li className="relative flex justify-between">
 			{ editable ?
-
-				<>
-					<input type="text" value={subTaskName} onChange={e => setSubTaskName(e.target.value)}
-						className="grow"/>
-
-					<button type="button" onClick={handleSaveButtonClick} disabled={subTaskName === ""}>
-						Save
-					</button>
-				</>
-
+			
+				<input type="text" value={subTaskName} onChange={e => setSubTaskName(e.target.value)}
+							className="input-outline grow p-2 rounded-sm"/>
+				
 				:
 
-				<>
-					<span>{subTask.name}</span>
-
-					<button type="button" onClick={() => setEditable(true)}>
-						Edit
-					</button>
-				</>
+				<span className="grow block p-2 bg-slate-200 rounded-sm">
+					{subTask.name}
+				</span>
 			}
+
+			<div className="absolute right-2 bottom-2 flex gap-2 justify-end items-center">
+				{ editable ?
+					<>
+						<button type="button">
+							Cancel
+						</button>
+
+						<button type="button" onClick={handleSaveButtonClick} disabled={subTaskName === ""}>
+							Save
+						</button>
+					</>
+
+					:
+					
+					<>
+						<button type="button" onClick={() => setEditable(true)}>
+							Edit
+						</button>
+
+						<button type="button">
+							Delete
+						</button>
+					</>
+				}
+			</div>
 		</li>
 	)
 }
