@@ -6,10 +6,16 @@ interface SubTasksFormWidgetProps {
 	subTasks: SubTask[];
 	addSubTask: () => void;
 	updateSubTaskAtIndex: (index: number) => (name: string) => void;
+	deleteSubTaskAtIndex: (index: number) => () => void;
 }
 
 // Displays a list of existing sub tasks, allows to edit them and to add new ones
-function SubTasksFormWidget({subTasks, addSubTask, updateSubTaskAtIndex}: SubTasksFormWidgetProps) {
+function SubTasksFormWidget({
+	subTasks,
+	addSubTask,
+	updateSubTaskAtIndex,
+	deleteSubTaskAtIndex
+}: SubTasksFormWidgetProps) {
 	return (
 		<div className="flex flex-col gap-4 items-stretch">
 			
@@ -19,7 +25,10 @@ function SubTasksFormWidget({subTasks, addSubTask, updateSubTaskAtIndex}: SubTas
 			
 				<ul className="flex flex-col gap-3">
 					{subTasks.map((subTask, i) => 
-						<EditableSubTaskCard key={i} subTask={subTask} updateSubTask={updateSubTaskAtIndex(i)}/>
+						<EditableSubTaskCard key={i} subTask={subTask}
+							updateSubTask={updateSubTaskAtIndex(i)}
+							deleteSubTask={deleteSubTaskAtIndex(i)}
+						/>
 					)}
 				</ul>
 			}

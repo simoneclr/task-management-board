@@ -45,6 +45,17 @@ function TaskForm({taskName, taskDescription, existingSubTasks, saveTask}: TaskF
 		})
 	}
 
+	// Given an index, returns a function that deletes the subtask at that index in the local state
+	const deleteSubTaskAtIndex = (index: number) => () => {
+		setSubTasks(prevState => {
+			const updated = prevState.slice()
+
+			updated.splice(index, 1)
+
+			return updated
+		})
+	}
+
 	const onSubmit = (e: SyntheticEvent) => {
 		e.preventDefault()
 		
@@ -69,8 +80,11 @@ function TaskForm({taskName, taskDescription, existingSubTasks, saveTask}: TaskF
 				</textarea>
 			</label>
 
-			<SubTasksFormWidget subTasks={subTasks} addSubTask={addNewSubTask} 
-				updateSubTaskAtIndex={updateSubTaskAtIndex}/>
+			<SubTasksFormWidget subTasks={subTasks} 
+				addSubTask={addNewSubTask} 
+				updateSubTaskAtIndex={updateSubTaskAtIndex}
+				deleteSubTaskAtIndex={deleteSubTaskAtIndex}
+			/>
 
 			<button type="submit" disabled={name === "" || description === ""}
 							className="btn-primary rounded-full p-2">
