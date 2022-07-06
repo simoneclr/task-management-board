@@ -2,6 +2,13 @@ import { useEffect, useRef, useState } from "react";
 
 import { SubTask } from "../../model/tasksTypes";
 
+import {ReactComponent as IconEdit} from "../../assets/svgs/pen-to-square-regular.svg";
+import {ReactComponent as IconSave} from "../../assets/svgs/check-solid.svg";
+import {ReactComponent as IconCancel} from "../../assets/svgs/x-solid.svg";
+import {ReactComponent as IconDelete} from "../../assets/svgs/trash-can-regular.svg";
+
+import IconButton from "../../components/buttons/IconButton";
+
 interface EditableSubTaskCardProps {
 	subTask: SubTask;
 	updateSubTask: (name: string) => void;
@@ -63,28 +70,32 @@ function EditableSubTaskCard({subTask, updateSubTask, deleteSubTask}: EditableSu
 				</span>
 			}
 
-			<div className="absolute right-2 bottom-2 flex gap-2 justify-end items-center">
+			<div className="absolute right-2 inset-y-0 flex gap-2 justify-end items-center">
 				{ editable ?
 					<>
-						<button type="button" onClick={handleCancelButtonClick}>
-							Cancel
-						</button>
+						<IconButton onClick={handleCancelButtonClick}>
+							<span className="sr-only">Cancel edit</span>
+							<IconCancel className="h-5 w-5"/>
+						</IconButton>
 
-						<button type="button" onClick={handleSaveButtonClick} disabled={subTaskName === ""}>
-							Save
-						</button>
+						<IconButton onClick={handleSaveButtonClick} disabled={subTaskName === ""}>
+							<span className="sr-only">Save Changes</span>
+							<IconSave className="h-5 w-5"/>
+						</IconButton>
 					</>
 
 					:
 					
 					<>
-						<button type="button" onClick={() => setEditable(true)}>
-							Edit
-						</button>
+						<IconButton onClick={() => setEditable(true)}>
+							<span className="sr-only">Edit Sub-task</span>
+							<IconEdit className="h-5 w-5"/>
+						</IconButton>
 
-						<button type="button" onClick={() => deleteSubTask()}>
-							Delete
-						</button>
+						<IconButton onClick={() => deleteSubTask()}>
+							<span className="sr-only">Delete Sub-task</span>
+							<IconDelete className="h-5 w-5"/>
+						</IconButton>
 					</>
 				}
 			</div>
