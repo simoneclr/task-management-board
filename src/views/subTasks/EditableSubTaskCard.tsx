@@ -40,7 +40,7 @@ function EditableSubTaskCard({subTask, updateSubTask, deleteSubTask}: EditableSu
 		if (subTask.name === "" && !editable) {
 			deleteSubTask()
 		}
-	}, [editable, subTask])
+	}, [editable, subTask, deleteSubTask])
 
 	const handleSaveButtonClick = () => {
 		updateSubTask(subTaskName)
