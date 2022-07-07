@@ -27,7 +27,7 @@ function TaskForm({taskName, taskDescription, existingSubTasks, saveTask}: TaskF
 	// Adds a new subtask to the list, with empty name and temporary, made-up values in the other fields
 	const addNewSubTask = () => {
 		setSubTasks(prevState => [...prevState, {
-			id: "-1",
+			id: "",
 			parentTaskId: "-1",
 			isDone: false,
 			name: ""

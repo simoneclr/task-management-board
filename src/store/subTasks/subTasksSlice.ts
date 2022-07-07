@@ -39,6 +39,50 @@ const subTasksSlice = createSlice({
 				}
 			} 
 		},
+		subTaskEdited: {
+			reducer: (
+				state, 
+				action: PayloadAction<{
+					subTaskId: EntityId,
+					updatedName: string
+				}>
+			) => {
+				const {subTaskId, updatedName} = action.payload
+
+				const updatedSubTask = state.entities[subTaskId]
+
+				if (updatedSubTask) {
+					updatedSubTask.name = updatedName
+				}
+			},
+			prepare: (subTaskId: EntityId, updatedName: string) => {
+				return {
+					payload: {
+						subTaskId,
+						updatedName
+					}
+				}
+			} 
+		},
+		subTaskRemoved: {
+			reducer: (
+				state, 
+				action: PayloadAction<{
+					subTaskId: EntityId
+				}>
+			) => {
+				const {subTaskId} = action.payload
+
+				subTasksAdapter.removeOne(state, subTaskId)
+			},
+			prepare: (subTaskId: EntityId) => {
+				return {
+					payload: {
+						subTaskId
+					}
+				}
+			} 
+		},
 		subTaskCompleted: {
 			reducer: (
 				state, 
@@ -67,6 +111,8 @@ export default subTasksSlice.reducer
 
 export const {
 	subTaskAdded,
+	subTaskEdited,
+	subTaskRemoved,
 	subTaskCompleted
 } = subTasksSlice.actions
 
@@ -74,6 +120,15 @@ export const {
 	selectById: selectSubTaskById,
 	selectAll: selectAllSubTasks
 } = subTasksAdapter.getSelectors((state: RootState) => state.subTasks)
+
+// Given a task id, select the subTasks belonging to it
+export const selectSubTasksByTaskId = createSelector(
+	[
+		selectAllSubTasks,
+		(state: RootState, taskId: EntityId) => taskId
+	],
+	(subTasks, taskId) => subTasks.filter(subTask => subTask.parentTaskId === taskId)
+)
 
 // Given a task id, select the ids of all subTasks belonging to it
 export const selectSubTasksIdsByTaskId = createSelector(

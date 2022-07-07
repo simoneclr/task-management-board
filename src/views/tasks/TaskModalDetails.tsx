@@ -1,4 +1,5 @@
 import { EntityId } from "@reduxjs/toolkit"
+import { SyntheticEvent } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
@@ -8,10 +9,11 @@ import TaskActions from "./TaskActions";
 
 interface TaskDetailsModalProps {
 	taskId: EntityId;
+	handleEditClick: (e?: SyntheticEvent) => void;
 }
 
 // Displays a modal containing all the details of a specified task
-function TaskModalDetails({taskId}: TaskDetailsModalProps) {
+function TaskModalDetails({taskId, handleEditClick}: TaskDetailsModalProps) {
 
 	const task = useSelector((state: RootState) => selectTaskById(state, taskId))
 
@@ -30,7 +32,7 @@ function TaskModalDetails({taskId}: TaskDetailsModalProps) {
 
 			<SubTasksList taskId={taskId}/>
 
-			<TaskActions taskId={taskId}/>
+			<TaskActions taskId={taskId} handleEditClick={handleEditClick}/>
 		</>
 
 		:

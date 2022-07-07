@@ -3,7 +3,7 @@ import { AnyAction, createEntityAdapter, createSelector, createSlice, EntityId, 
 import { RootState } from "../store";
 
 import { SubTask, Task, TaskStatus } from "../../model/tasksTypes";
-import { subTaskAdded } from "../subTasks/subTasksSlice";
+import { subTaskAdded, subTaskEdited, subTaskRemoved } from "../subTasks/subTasksSlice";
 
 // Thunk function that adds a new Task and its relative SubTasks
 export const addTask = (
@@ -19,6 +19,32 @@ export const addTask = (
 
 	subTasks.forEach(subTask => {
 		dispatch(subTaskAdded(taskId, subTask.name))
+	})
+}
+
+// Thunk function that edits an existing Task and its relative SubTasks
+export const editTask = (
+	taskId: EntityId, 
+	updatedName: string, 
+	updatedDescription: string,
+	subTasks: SubTask[],
+	removedSubTasks: SubTask[]
+): ThunkAction<void, RootState, unknown, AnyAction> => 
+(dispatch, getState) => {
+	dispatch(taskEdited(taskId, updatedName, updatedDescription))
+
+	subTasks.forEach(subTask => {
+		const existingSubTask = getState().subTasks.entities[subTask.id]
+
+		if (existingSubTask && existingSubTask.parentTaskId === taskId) {
+			dispatch(subTaskEdited(existingSubTask.id, subTask.name))
+		} else {
+			dispatch(subTaskAdded(taskId, subTask.name))
+		}
+	})
+
+	removedSubTasks.forEach(subTask => {
+		dispatch(subTaskRemoved(subTask.id))
 	})
 }
 
@@ -57,6 +83,34 @@ const tasksSlice = createSlice({
 						taskId,
 						taskName,
 						taskDescription
+					}
+				}
+			}
+		},
+		taskEdited: {
+			reducer: (
+				state,
+				action: PayloadAction<{
+					taskId: EntityId,
+					updatedName: string,
+					updatedDescription: string
+				}>
+			) => {
+				const {taskId, updatedName, updatedDescription} = action.payload
+
+				const existingTask = state.entities[taskId]
+
+				if (existingTask) {
+					existingTask.name = updatedName
+					existingTask.description = updatedDescription
+				}
+			},
+			prepare: (taskId, updatedName: string, updatedDescription: string) => {
+				return {
+					payload: {
+						taskId,
+						updatedName,
+						updatedDescription
 					}
 				}
 			}
@@ -110,7 +164,8 @@ export default tasksSlice.reducer
 
 // Actions not exported because accessed by thunks
 const {
-	taskAdded
+	taskAdded,
+	taskEdited
 } = tasksSlice.actions
 
 // Exported actions

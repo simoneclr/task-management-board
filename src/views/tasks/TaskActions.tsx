@@ -1,4 +1,5 @@
 import { EntityId } from "@reduxjs/toolkit"
+import { SyntheticEvent } from "react";
 import PrimaryButtonSmall from "../../components/buttons/PrimaryButtonSmall";
 import { TaskStatus } from "../../model/tasksTypes";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -8,10 +9,11 @@ import { selectTaskById, taskCompleted, taskStarted } from "../../store/tasks/ta
 
 interface TaskActionsProps {
 	taskId: EntityId;
+	handleEditClick: (e?: SyntheticEvent) => void;
 }
 
 // Displays available actions for the specified task
-function TaskActions({taskId}: TaskActionsProps) {
+function TaskActions({taskId, handleEditClick}: TaskActionsProps) {
 
 	const dispatch = useAppDispatch()
 
@@ -38,7 +40,7 @@ function TaskActions({taskId}: TaskActionsProps) {
 						Start Doing
 					</PrimaryButtonSmall>
 					
-					<button>
+					<button onClick={handleEditClick}>
 						Edit
 					</button>
 				</>
