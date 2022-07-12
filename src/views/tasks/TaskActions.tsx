@@ -1,8 +1,11 @@
 import { EntityId } from "@reduxjs/toolkit"
 import { SyntheticEvent } from "react";
 import PrimaryButtonSmall from "../../components/buttons/PrimaryButtonSmall";
+import SecondaryButton from "../../components/buttons/SecondaryButton";
 import { TaskStatus } from "../../model/tasksTypes";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+
+import {ReactComponent as IconEdit} from "../../assets/svgs/pen-to-square-regular.svg";
 
 import { selectCanCompleteTaskId } from "../../store/subTasks/subTasksSlice";
 import { selectTaskById, taskCompleted, taskStarted } from "../../store/tasks/tasksSlice";
@@ -40,9 +43,9 @@ function TaskActions({taskId, handleEditClick}: TaskActionsProps) {
 						Start Doing
 					</PrimaryButtonSmall>
 					
-					<button onClick={handleEditClick}>
-						Edit
-					</button>
+					<SecondaryButton onClick={handleEditClick} className="flex items-center gap-2">
+						<IconEdit className="fill-current h-4"/> Edit
+					</SecondaryButton>
 				</>
 			}
 

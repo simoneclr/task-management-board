@@ -1,3 +1,4 @@
+import SecondaryButton from "../../components/buttons/SecondaryButton";
 import { SubTask } from "../../model/tasksTypes";
 
 import EditableSubTaskCard from "./EditableSubTaskCard";
@@ -33,11 +34,9 @@ function SubTasksFormWidget({
 				</ul>
 			}
 
-			<button type="button" onClick={addSubTask}
-					className="p-2 rounded-full text-white font-bold
-						bg-slate-400 hover:bg-slate-500 active:bg-slate-600">
+			<SecondaryButton onClick={addSubTask}>
 				Add Subtask
-			</button>
+			</SecondaryButton>
 		</div>
 	)
 }
